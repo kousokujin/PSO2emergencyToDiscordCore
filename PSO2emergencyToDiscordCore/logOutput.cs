@@ -7,7 +7,8 @@ namespace PSO2emergencyToDiscordCore
 {
     class logOutput
     {
-        static StreamWriter writer;
+        //static StreamWriter writer;
+        //static FileStream stream;
         private static string filename;
         private static DateTime dt;
         private static string date;
@@ -15,21 +16,28 @@ namespace PSO2emergencyToDiscordCore
 
         public static void writeLog(string str)
         {
+            if(filename == null)
+            {
+                filename = "log.txt";
+            }
             dt = DateTime.Now;
-            // enc = Encoding.GetEncoding("UTF-8");
-
             date = dt.ToString("yyyy/MM/dd");
             time = dt.ToString("HH:mm:ss");
-            string text = string.Format("[{0}{1}]{2}", date, time, str);
-            writer.WriteLine(text);
-            System.Console.WriteLine(text);
+            string text = string.Format("[{0} {1}]{2}", date, time, str);
+
+            using(FileStream file = new FileStream(filename, FileMode.Append))
+            {
+                using(StreamWriter writer = new StreamWriter(file, Encoding.UTF8))
+                {
+                    writer.Write(text);
+                    System.Console.WriteLine(text);
+                }
+            }
         }
 
         public static void init(string name)
         {
             filename = name;
-            writer = new System.IO.StreamWriter(new FileStream(filename,FileMode.Create));
-
         }
     }
 }

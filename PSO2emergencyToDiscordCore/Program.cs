@@ -8,16 +8,13 @@ namespace PSO2emergencyToDiscordCore
     {
         static void Main(string[] args)
         {
-            logOutput.init("log.txt");
-            logOutput.writeLog("起動しました。");
-            string url = "https://discordapp.com/api/webhooks/348322898089345032/yzcePYWS5nxgRIMNTKKgFPxgOTnEQY9aPY3FXyj5VR_hnO_aivZciwAjgO0EORUUBIPF";
+            Console.OutputEncoding = Console.OutputEncoding;
 
             HttpClient hc = new HttpClient();
-            DiscordService discord = new DiscordService(url, hc);
-            Task<HttpResponseMessage> t = discord.sendService("testmessage");
+            string geturl = "https://akakitune87.net/api/v4/pso2emergency";
+            aki_luaEventGetter getPSO2 = new aki_luaEventGetter(geturl, hc);
+            getPSO2.reloadPSO2Event();
 
-            t.Wait();
-            //System.Console.WriteLine(t.Result.ToString());
             System.Console.ReadKey();
         }
     }
