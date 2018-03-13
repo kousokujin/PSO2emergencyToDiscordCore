@@ -15,6 +15,7 @@ namespace PSO2emergencyToDiscordCore
             aki_luaEventGetter getPSO2 = new aki_luaEventGetter(geturl, hc);
             getPSO2.reloadPSO2Event();
 
+            EventAdmin admin = new EventAdmin(getPSO2.pso2EventBuffer);
             System.Console.ReadKey();
         }
     }
