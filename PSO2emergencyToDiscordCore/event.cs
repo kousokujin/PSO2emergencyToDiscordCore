@@ -30,10 +30,17 @@ namespace PSO2emergencyToDiscordCore
             live = "";
         }
 
-        public emgQuest(DateTime time,string evant,string liveName) : base(time, evant)
+        public emgQuest(DateTime time,string Event,string liveName) : base(time, Event)
         {
             live = liveName;
             liveEnable = true;
+        }
+
+        public emgQuest(DateTime time,string Event,string livenName,bool liveEnable) : base(time, Event)
+        {
+            live = livenName;
+            this.liveEnable = liveEnable;
+
         }
     }
 
