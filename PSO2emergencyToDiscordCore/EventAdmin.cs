@@ -134,8 +134,10 @@ namespace PSO2emergencyToDiscordCore
                 }
             }
 
-            //notify = true;
-            logOutput.writeLog(string.Format("次の通知は{0}時{1}分の{2}です。", nextNofity.Hour, nextNofity.Minute,nextEmg.eventName));
+            if (notify == true)
+            {
+                logOutput.writeLog(string.Format("次の通知は{0}時{1}分の{2}です。", nextNofity.Hour, nextNofity.Minute, nextEmg.eventName));
+            }
         }
 
         private void setNextEmg()    //次の緊急クエストを更新
@@ -236,7 +238,6 @@ namespace PSO2emergencyToDiscordCore
             {
                 DateTime dt = DateTime.Now;
 
-
                 if ((DateTime.Compare(dt, nextNofity) > 0) && notify == true)   //次の通知の時間を現在時刻が超えた時
                 {
                     //通知のイベントを発生
@@ -267,11 +268,15 @@ namespace PSO2emergencyToDiscordCore
                 {
                     getEmgFromNet(emgGetter);
                     setNextGetTime();
+                    setNextEmg();
+                    DailyEventList e = new DailyEventList(getTodayEmg(), rodosDay);
+                    Download(this,e);
                 }
 
-                if (rodosDay && DateTime.Compare(dt, rodosNotify) > 0)  //バル・ロドスの日23時30分の通知
+                if (rodosDay == true && DateTime.Compare(dt, rodosNotify) > 0)  //バル・ロドスの日23時30分の通知
                 {
-                    
+                    EventData e = new EventData(2);
+                    rodos30Before(this, e);
                 }
 
             }
