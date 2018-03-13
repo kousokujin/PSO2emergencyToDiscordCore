@@ -10,6 +10,7 @@ namespace PSO2emergencyToDiscordCore
         //水曜日の緊急クエスト取得をする時のイベントハンドラ
         public event EventHandler Download;
 
+        /*
         //緊急クエスト60分前のイベントハンドラ
         public event EventHandler emg60Before;
 
@@ -18,6 +19,10 @@ namespace PSO2emergencyToDiscordCore
 
         //緊急クエスト発生時のイベントハンドラ
         public event EventHandler emg0Before;
+        */
+
+        //緊急クエストの通知イベントハンドラ
+        public event EventHandler emgNotify;
 
         //日付が変わった時のイベントハンドラ
         public event EventHandler newDay;
@@ -27,6 +32,9 @@ namespace PSO2emergencyToDiscordCore
 
         //緊急クエスト情報
         private List<Event> pso2Event;
+
+        //緊急取得のためのクラス
+        public AbstractEventGetter emgGetter;
 
         //次の緊急クエスト
         Event nextEmg;
@@ -40,17 +48,26 @@ namespace PSO2emergencyToDiscordCore
         //日付が変わった時の通知
         DateTime nextDayNtf;
 
+        //バル・ロドスの日フラグ
+        bool rodosDay;
+        DateTime rodosNotify;
+
 
         private Task EventLoopTask;
 
-        public EventAdmin(List<Event> EventList)
+        public EventAdmin(AbstractEventGetter emgGetter)
         {
             pso2Event = new List<Event>();
-            setEvent(EventList);
+            this.emgGetter = emgGetter;
+            getEmgFromNet(emgGetter);
+            setDailyPost();
+            setNextGetTime();
+            setRodosDay();
+
             this.EventLoopTask = startEventLoop();
         }
 
-        public void setEvent(List<Event> EventList)
+        public void setEmgEvent(List<Event> EventList)
         {
             pso2Event.Clear();
 
@@ -82,8 +99,12 @@ namespace PSO2emergencyToDiscordCore
 
             setNextEmg();
             calcNextNofity();
-            setDailyPost();
-            setNextGetTime();
+        }
+
+        public void getEmgFromNet(AbstractEventGetter emgGetter)    //緊急情報の取得
+        {
+            emgGetter.reloadPSO2Event();
+            setEmgEvent(emgGetter.getPSO2Event());
         }
 
         private void calcNextNofity()   //次の通知の時間を計算
@@ -165,6 +186,45 @@ namespace PSO2emergencyToDiscordCore
             logOutput.writeLog(string.Format("次の緊急クエストの取得は{0}月{1}日{2}時{3}分です。", nextReload.Month, nextReload.Day, nextReload.Hour, nextReload.Minute));
         }
 
+        //バル・ロドスの通知設定
+        private void setRodosDay()
+        {
+            rodosDay = rodosCalculator.calcRodosDay(DateTime.Now);
+            if(rodosDay == true)
+            {
+                 rodosNotify = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 30, 0);
+            }
+        }
+
+        public List<Event> getTodayEmg()    //今日の緊急クエスト一覧を取得
+        {
+            DateTime dt = DateTime.Now;
+            DateTime toDay00 = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0);
+            DateTime toDay01 = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0);
+
+            List<Event> output = new List<Event>();
+
+            foreach (Event ev in pso2Event)
+            {
+                if (DateTime.Compare(ev.eventTime, toDay00) >= 0 && DateTime.Compare(ev.eventTime, toDay01) < 0)
+                {
+                    if(ev is emgQuest)
+                    {
+                        emgQuest tmp = (emgQuest)ev;
+                        output.Add(new emgQuest(tmp.eventTime,tmp.eventName,tmp.live,tmp.liveEnable));
+                    }
+
+                    if(ev is casino)
+                    {
+                        casino tmp = (casino)ev;
+                        output.Add(new casino(tmp.eventTime));
+                    }
+                }
+            }
+
+            return output;
+        }
+
         private async Task startEventLoop()  //イベントループを非同期で開始
         {
             await Task.Run(() => EventLoop());
@@ -172,7 +232,49 @@ namespace PSO2emergencyToDiscordCore
 
         private void EventLoop()    //イベントループ
         {
+            while (true)
+            {
+                DateTime dt = DateTime.Now;
 
+
+                if ((DateTime.Compare(dt, nextNofity) > 0) && notify == true)   //次の通知の時間を現在時刻が超えた時
+                {
+                    //通知のイベントを発生
+                    emgEventData e = new emgEventData(nextEmg,nextInterval);
+                    emgNotify(this,e);
+
+                    if(nextInterval == 0)
+                    {
+                        setNextEmg();
+                    }
+                    calcNextNofity();
+                }
+
+                if (DateTime.Compare(dt, nextDayNtf) > 0) //日付が変わったら実行される
+                {
+                    setRodosDay();
+                    setDailyPost();
+                    //日付が変わった時のイベントを発生させる。
+                    List<Event> todayEvent = getTodayEmg();
+                    if(todayEvent.Count != 0 || rodosDay == true)
+                    {
+                        DailyEventList e = new DailyEventList(todayEvent, rodosDay);
+                        newDay(this, e);
+                    }
+                }
+
+                if (DateTime.Compare(dt, nextReload) > 0)   //水曜日17時になったら実行
+                {
+                    getEmgFromNet(emgGetter);
+                    setNextGetTime();
+                }
+
+                if (rodosDay && DateTime.Compare(dt, rodosNotify) > 0)  //バル・ロドスの日23時30分の通知
+                {
+                    
+                }
+
+            }
         }
     }
 }

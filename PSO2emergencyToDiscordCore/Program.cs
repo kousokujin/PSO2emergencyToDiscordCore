@@ -13,9 +13,8 @@ namespace PSO2emergencyToDiscordCore
             HttpClient hc = new HttpClient();
             string geturl = "https://akakitune87.net/api/v4/pso2emergency";
             aki_luaEventGetter getPSO2 = new aki_luaEventGetter(geturl, hc);
-            getPSO2.reloadPSO2Event();
 
-            EventAdmin admin = new EventAdmin(getPSO2.pso2EventBuffer);
+            EventAdmin admin = new EventAdmin(getPSO2);
             System.Console.ReadKey();
         }
     }
