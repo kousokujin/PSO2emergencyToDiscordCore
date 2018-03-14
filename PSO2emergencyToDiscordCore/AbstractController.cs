@@ -45,9 +45,13 @@ namespace PSO2emergencyToDiscordCore
             string[] commandArr = Separate(str);
             bool check = checkCommand(commandArr[0]);
 
-            if(check == false)
+            if(check == false && str != "")
             {
                 System.Console.WriteLine("コマンドが見つかりません。");
+                return;
+            }
+            if(str == "")
+            {
                 return;
             }
 
@@ -70,6 +74,7 @@ namespace PSO2emergencyToDiscordCore
         {
             do
             {
+                logOutput.outputPronpt();
                 string commandInput = System.Console.ReadLine();
                 Process(commandInput);
 

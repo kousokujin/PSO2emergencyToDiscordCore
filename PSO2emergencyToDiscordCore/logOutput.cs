@@ -35,6 +35,11 @@ namespace PSO2emergencyToDiscordCore
             }
         }
 
+        public static void outputPronpt()
+        {
+            System.Console.Write("PSO2 Discord > ");
+        }
+
         public static void init(string name)
         {
             filename = name;
