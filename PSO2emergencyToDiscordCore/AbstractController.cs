@@ -7,14 +7,19 @@ namespace PSO2emergencyToDiscordCore
     abstract class AbstractController
     {
 
-        List<string> commandList;
+        protected List<string> commandList;
         protected bool end;   //終了フラグ
 
-        public AbstractController(List<string> cmdList)
+        public AbstractController()
         {
             end = false;
-            commandList = cmdList;
+            commandList = new List<string>();
 
+        }
+
+        protected void addCommand(string command)
+        {
+            commandList.Add(command);
         }
 
         public bool checkCommand(string command)
@@ -69,6 +74,8 @@ namespace PSO2emergencyToDiscordCore
                 Process(commandInput);
 
             } while (end == false);
+
+            logOutput.writeLog("PSO2emergencyToDiscordCoreを終了します。");
         }
 
         public abstract void commandProcess(string command, string[] args); //コマンドの処理

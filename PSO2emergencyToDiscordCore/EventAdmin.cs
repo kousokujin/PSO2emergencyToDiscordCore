@@ -59,9 +59,8 @@ namespace PSO2emergencyToDiscordCore
         {
             pso2Event = new List<Event>();
             this.emgGetter = emgGetter;
-            getEmgFromNet(emgGetter);
+            getEmgFromNet();
             setDailyPost();
-            setNextGetTime();
             setRodosDay();
 
             this.EventLoopTask = startEventLoop();
@@ -101,10 +100,11 @@ namespace PSO2emergencyToDiscordCore
             calcNextNofity();
         }
 
-        public void getEmgFromNet(AbstractEventGetter emgGetter)    //緊急情報の取得
+        public void getEmgFromNet()    //緊急情報の取得
         {
             emgGetter.reloadPSO2Event();
             setEmgEvent(emgGetter.getPSO2Event());
+            setNextGetTime();
         }
 
         private void calcNextNofity()   //次の通知の時間を計算
@@ -196,6 +196,11 @@ namespace PSO2emergencyToDiscordCore
             {
                  rodosNotify = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 30, 0);
             }
+            else
+            {
+                DateTime next = rodosCalculator.nextRodosDay(DateTime.Now);
+                rodosNotify = new DateTime(next.Year, next.Month, next.Day, 23, 30, 0);
+            }
         }
 
         public List<Event> getTodayEmg()    //今日の緊急クエスト一覧を取得
@@ -266,9 +271,7 @@ namespace PSO2emergencyToDiscordCore
 
                 if (DateTime.Compare(dt, nextReload) > 0)   //水曜日17時になったら実行
                 {
-                    getEmgFromNet(emgGetter);
-                    setNextGetTime();
-                    setNextEmg();
+                    getEmgFromNet();
                     DailyEventList e = new DailyEventList(getTodayEmg(), rodosDay);
                     Download(this,e);
                 }
