@@ -46,6 +46,11 @@ namespace PSO2emergencyToDiscordCore
             return output;
         }
 
+        public string getServicedUrl()
+        {
+            return service.getUrl();
+        }
+
         //-----イベント------
         private void emgNotiy(object sender, EventArgs e)    //緊急通知が来た時のイベント
         {
