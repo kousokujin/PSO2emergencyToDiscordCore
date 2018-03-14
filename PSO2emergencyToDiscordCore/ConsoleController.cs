@@ -4,13 +4,13 @@ using System.Text;
 
 namespace PSO2emergencyToDiscordCore
 {
-    class ConsoleControl : ControllerCore
+    class ConsoleController : ControllerCore
     {
 
         protected List<string> commandList;
         protected bool end;   //終了フラグ
 
-        public ConsoleControl()
+        public ConsoleController()
         {
             end = false;
             commandList = new List<string>();
@@ -112,16 +112,25 @@ namespace PSO2emergencyToDiscordCore
             {
                 if (args.Length == 1)
                 {
+                    bool modify = false;
+
                     if (args[0] == "true" || args[0] == "1" || args[0] == "yes" || args[0] == "y" || args[0] == "enable")
                     {
                         bot.rodos = true;
                         logOutput.writeLog("デイリーバル・ロドス討伐(VH)の通知は有効にしました。");
+                        modify = true;
                     }
 
                     if (args[0] == "false" || args[0] == "0" || args[0] == "no" || args[0] == "n" || args[0] == "disable")
                     {
                         bot.rodos = false;
                         logOutput.writeLog("デイリーバル・ロドス討伐(VH)の通知は無効にしました。");
+                        modify = true;
+                    }
+
+                    if(modify == false)
+                    {
+                        System.Console.WriteLine("値が不正です。");
                     }
                 }
                 else

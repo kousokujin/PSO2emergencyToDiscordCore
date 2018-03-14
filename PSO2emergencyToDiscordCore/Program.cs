@@ -12,7 +12,7 @@ namespace PSO2emergencyToDiscordCore
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             printTitle();
-            ControllerCore maincontroll = new ConsoleControl();
+            ControllerCore maincontroll = new ConsoleController();
         }
 
         static void printTitle()
