@@ -52,8 +52,11 @@ namespace PSO2emergencyToDiscordCore
         bool rodosDay;
         DateTime rodosNotify;
 
-
         private Task EventLoopTask;
+
+        //デバッグ用
+        //public event EventHandler debugEvent;
+        //public bool debug;
 
         public EventAdmin(AbstractEventGetter emgGetter)
         {
@@ -64,6 +67,8 @@ namespace PSO2emergencyToDiscordCore
             setRodosDay();
 
             this.EventLoopTask = startEventLoop();
+
+            //debug = false;
         }
 
         public void setEmgEvent(List<Event> EventList)
@@ -206,8 +211,10 @@ namespace PSO2emergencyToDiscordCore
         public List<Event> getTodayEmg()    //今日の緊急クエスト一覧を取得
         {
             DateTime dt = DateTime.Now;
+            TimeSpan OneDay = new TimeSpan(24, 0, 0);
+
             DateTime toDay00 = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0);
-            DateTime toDay01 = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0);
+            DateTime toDay01 = new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0) + OneDay;
 
             List<Event> output = new List<Event>();
 
@@ -280,7 +287,16 @@ namespace PSO2emergencyToDiscordCore
                 {
                     EventData e = new EventData(2);
                     rodos30Before(this, e);
+                    rodosDay = false;
                 }
+
+                /*
+                if(debug == true)   //デバッグ用
+                {
+                }
+                */
+
+                //System.Threading.Thread.Sleep(100);
 
             }
         }

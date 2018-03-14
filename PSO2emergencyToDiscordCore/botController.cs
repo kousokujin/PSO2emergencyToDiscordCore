@@ -16,17 +16,18 @@ namespace PSO2emergencyToDiscordCore
         {
             this.service = service;
             this.admin = admin;
-
             this.rodos = rodos; //バル・ロドス通知
-            registEvent(admin);
+
+            registEvent();
         }
 
-        private void registEvent(EventAdmin admin)
+        private void registEvent()
         {
             admin.emgNotify += new EventHandler(this.emgNotiy);
             admin.newDay += new EventHandler(this.newDayPOST);
             admin.Download += new EventHandler(this.newDayPOST);    //めんどいから日付が変わった時と同じ
             admin.rodos30Before += new EventHandler(this.RodosBefore30);
+            
         }
 
         public void ToServicePOST(string text)
@@ -75,6 +76,7 @@ namespace PSO2emergencyToDiscordCore
         {
             if(e is DailyEventList)
             {
+                System.Console.WriteLine("Download");
                 DailyEventList tmp = (DailyEventList)e;
                 string postStr = "";
 
@@ -100,10 +102,15 @@ namespace PSO2emergencyToDiscordCore
         {
             if(rodos == true)
             {
-                DateTime next = rodosCalculator.nextRodosDay(DateTime.Now);
+                DateTime next = rodosCalculator.nextRodosDay(DateTime.Now + new TimeSpan(24,0,0));
                 string postStr = string.Format("デイリーオーダー「バル・ロドス討伐(VH)」の日があと30分で終わります。オーダーは受注しましたか？\n次回のバル・ロドス討伐(VH)の日は{0}月{1}日です。",next.Month,next.Day);
                 ToServicePOST(postStr);
             }
+        }
+
+        private void debugEvent(object sender,EventArgs e)
+        {
+            System.Console.WriteLine("debug Event");
         }
     }
 }

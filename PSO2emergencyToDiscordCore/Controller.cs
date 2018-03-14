@@ -81,6 +81,7 @@ namespace PSO2emergencyToDiscordCore
             addCommand("post");
             addCommand("help");
             addCommand("url");
+            //addCommand("debug");
         }
 
         private configure setup()
@@ -162,6 +163,13 @@ namespace PSO2emergencyToDiscordCore
             {
                 outputHelp();
             }
+
+            /*
+            if(command == "debug")
+            {
+                admin.debug = true;
+            }
+            */
         }
 
         private void outputHelp()
