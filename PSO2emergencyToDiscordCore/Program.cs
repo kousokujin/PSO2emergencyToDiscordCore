@@ -11,13 +11,8 @@ namespace PSO2emergencyToDiscordCore
         static void Main(string[] args)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
             printTitle();
-            string discordUrl = "https://discordapp.com/api/webhooks/348322898089345032/yzcePYWS5nxgRIMNTKKgFPxgOTnEQY9aPY3FXyj5VR_hnO_aivZciwAjgO0EORUUBIPF";
-
-            //List<string> command = new List<string>();
-
-            AbstractController maincontroll = new Controller(discordUrl);
+            AbstractController maincontroll = new Controller();
         }
 
         static void printTitle()

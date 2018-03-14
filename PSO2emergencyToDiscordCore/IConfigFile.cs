@@ -9,7 +9,7 @@ namespace PSO2emergencyToDiscordCore
      */
     interface IConfigFile
     {
-        void saveConfig(object obj,string typeStr);
+        void saveConfig();
         object loadConfig();
         string getFilename();
     }

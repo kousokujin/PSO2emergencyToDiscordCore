@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Http;
+using System.IO;
 
 namespace PSO2emergencyToDiscordCore
 {
-    class Controller:AbstractController
+    class Controller:AbstractController,IConfigFile
     {
         HttpClient hc;
         AbstractEventGetter emgGetter;
@@ -13,25 +14,59 @@ namespace PSO2emergencyToDiscordCore
         botController bot;
         AbstractService service;
 
-        string discordurl;
+        //string discordurl;
         string HttpGetUrl;
 
-        public Controller(string url)
+        private string configFile;
+
+        public Controller()
         {
-            discordurl = url;
-            init();
+            configure conf = configLoad();
+            init(conf);
             loop();
         }
 
-        private void init()
+        private configure configLoad(string filename = "config.xml")
+        {
+            this.configFile = filename;
+
+            if(File.Exists(filename) == true)
+            {
+                logOutput.writeLog("設定ファイルが見つかりました。");
+
+                object obj = loadConfig();
+                if(obj is configure)
+                {
+                    configure conf = (configure)obj;
+                    return conf;
+
+                }
+                else
+                {
+                    logOutput.writeLog("設定ファイルが不正です。初期設定を開始します。");
+                    configure conf = setup();
+                    return conf;
+                }
+            }
+            else
+            {
+                logOutput.writeLog("設定ファイルが見つかりません、初期設定を開始します。");
+                configure conf = setup();
+                return conf;
+
+            }
+        }
+        private void init(configure conf)
         {
             HttpGetUrl = "https://akakitune87.net/api/v4/pso2emergency";
 
             hc = new HttpClient();
             emgGetter = new aki_luaEventGetter(HttpGetUrl, hc);
-            service = new DiscordService(discordurl, hc);
+            service = new DiscordService(conf.url, hc);
             admin = new EventAdmin(emgGetter);
             bot = new botController(service, admin);
+
+            bot.rodos = conf.rodos;
 
             initComandSet();
         }
@@ -48,10 +83,22 @@ namespace PSO2emergencyToDiscordCore
             addCommand("url");
         }
 
+        private configure setup()
+        {
+            System.Console.WriteLine("DiscordのWebHooks URLを入力してください。");
+            string url = System.Console.ReadLine();
+
+            configure conf = new configure();
+            conf.url = url;
+            conf.rodos = true;
+
+            return conf;
+        }
         public override void commandProcess(string command, string[] args)
         {
             if(command == "stop" || command == "exit" || command == "quit")   //停止
             {
+                saveConfig();
                 end = true;
             }
 
@@ -139,7 +186,38 @@ namespace PSO2emergencyToDiscordCore
 
             return convertStr;
         }
+
+        //設定ファイル関連
+        public string getFilename()
+        {
+            return configFile;
+        }
+
+        public void saveConfig()    //設定ファイル保存
+        {
+            configure conf = new configure();
+            conf.url = service.getUrl();
+            conf.rodos = bot.rodos;
+            XmlFileIO.xmlSave(conf.GetType(),getFilename(),conf);
+
+            logOutput.writeLog("設定ファイルを保存しました。");
+        }
+
+        public object loadConfig()  //設定ファイル読み込み
+        {
+            configure conf = new configure();
+            object obj = XmlFileIO.xmlLoad(conf.GetType(), getFilename());
+
+            logOutput.writeLog("設定ファイルを読み込みました。");
+            return obj;
+        }
         
 
+    }
+
+    public class configure
+    {
+        public string url;
+        public bool rodos;
     }
 }

@@ -29,7 +29,7 @@ namespace PSO2emergencyToDiscordCore
             {
                 using(StreamWriter writer = new StreamWriter(file, Encoding.UTF8))
                 {
-                    writer.Write(text);
+                    writer.WriteLine(text);
                     System.Console.WriteLine(text);
                 }
             }

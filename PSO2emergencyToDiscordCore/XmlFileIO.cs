@@ -7,21 +7,32 @@ namespace PSO2emergencyToDiscordCore
 {
     static class XmlFileIO
     {
-        static object xmlLoad(Type t,string filename)
+        public static object xmlLoad(Type t,string filename)
         {
             System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(t);
-            System.IO.StreamReader sr = new System.IO.StreamReader(new FileStream(filename,FileMode.Create));
-            Object obj = serializer.Deserialize(sr);
+            object obj;
+
+            using (FileStream fs = new FileStream(filename, FileMode.Open)) {
+                using (StreamReader reader = new System.IO.StreamReader(fs))
+                {
+                    obj = serializer.Deserialize(reader);
+                }
+            }
 
             return obj;
         }
 
-        static void xmlSave(Type t,string filename,object obj)
+        public static void xmlSave(Type t,string filename,object obj)
         {
             System.Xml.Serialization.XmlSerializer serializer = new System.Xml.Serialization.XmlSerializer(t);
-            System.IO.StreamWriter sw = new System.IO.StreamWriter(new FileStream(filename,FileMode.Create));
-            serializer.Serialize(sw, obj);
-            //sw.close();
+
+            using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate))
+            {
+                using(StreamWriter sw = new StreamWriter(fs))
+                {
+                    serializer.Serialize(sw, obj);
+                }
+            }
         }
     }
 }
