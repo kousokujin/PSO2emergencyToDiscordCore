@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 
 namespace PSO2emergencyToDiscordCore
 {
@@ -41,7 +42,11 @@ namespace PSO2emergencyToDiscordCore
             
             foreach(Event e in evn)
             {
-                output += string.Format("{0} {1}\n", e.eventTime.ToString("HH:mm"), e.eventName);
+                if (e is emgQuest)
+                {
+                    string eventStr = getLiveEmgStr((emgQuest)e);
+                    output += string.Format("{0} {1}\n", e.eventTime.ToString("HH:mm"), eventStr);
+                }
             }
 
             return output;
@@ -50,6 +55,26 @@ namespace PSO2emergencyToDiscordCore
         public string getServicedUrl()
         {
             return service.getUrl();
+        }
+
+        private string getLiveEmgStr(emgQuest e, string section = "->")   //クーナライブがある時に使う
+        {
+            if (e.liveEnable == true)
+            {
+                if (Regex.IsMatch(e.live, "^クーナスペシャルライブ「.*」") == true) //他のライブの時は無理
+                {
+                    //もっといい方法がありそう
+                    string str = Regex.Replace(e.live, "^クーナスペシャルライブ「", "");
+                    str = Regex.Replace(str, "」$", "");
+                    return string.Format("{0}{1}{2}", str, section, e.eventName);
+                }
+                else
+                {
+                    return string.Format("{0}{1}{2}", e.live,section,e.eventName);
+                }
+            }
+
+            return e.eventName;
         }
 
         //-----イベント------
@@ -65,7 +90,8 @@ namespace PSO2emergencyToDiscordCore
                 }
                 else
                 {
-                    postStr = string.Format("【{0}分前】{1} {2}", tmp.interval, tmp.emgData.eventTime.ToString("HH:mm"), tmp.emgData.eventName);
+                    string eventName = getLiveEmgStr((emgQuest)tmp.emgData);
+                    postStr = string.Format("【{0}分前】{1} {2}", tmp.interval, tmp.emgData.eventTime.ToString("HH:mm"), eventName);
                 }
 
                 ToServicePOST(postStr);

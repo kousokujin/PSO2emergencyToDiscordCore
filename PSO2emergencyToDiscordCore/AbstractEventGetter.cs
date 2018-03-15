@@ -75,7 +75,24 @@ namespace PSO2emergencyToDiscordCore
             int count = 0;
             foreach(Event ev in pso2EventBuffer)
             {
-                output += string.Format("({0:00}/{1:00} {2:00}:{3:00}){4}",ev.eventTime.Month,ev.eventTime.Day,ev.eventTime.Hour,ev.eventTime.Minute,ev.eventName);
+                if (ev is emgQuest)
+                {
+                    emgQuest emg = (emgQuest)ev;
+                    if (emg.liveEnable == true)
+                    {
+                        output += string.Format("({0:00}/{1:00} {2:00}:00){3}", emg.eventTime.Month, emg.eventTime.Day, emg.eventTime.Hour,emg.live);
+                        output += string.Format("({0:00}/{1:00} {2:00}:{3:00}){4}", emg.eventTime.Month, emg.eventTime.Day, emg.eventTime.Hour, emg.eventTime.Minute, emg.eventName);
+                    }
+                    else
+                    {
+                        output += string.Format("({0:00}/{1:00} {2:00}:{3:00}){4}", ev.eventTime.Month, ev.eventTime.Day, ev.eventTime.Hour, ev.eventTime.Minute, ev.eventName);
+                    }
+                }
+                else
+                {
+                    output += string.Format("({0:00}/{1:00} {2:00}:{3:00}){4}", ev.eventTime.Month, ev.eventTime.Day, ev.eventTime.Hour, ev.eventTime.Minute, ev.eventName);
+                }
+
                 if(count != pso2EventBuffer.Count-1)
                 {
                     output += "\n";
