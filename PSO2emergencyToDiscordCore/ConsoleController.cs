@@ -35,6 +35,7 @@ namespace PSO2emergencyToDiscordCore
             addCommand("post");
             addCommand("help");
             addCommand("url");
+            addCommand("version");
             //addCommand("debug");
         }
 
@@ -164,6 +165,12 @@ namespace PSO2emergencyToDiscordCore
                 outputHelp();
             }
 
+            if(command == "version")
+            {
+                outputVersion();
+            }
+
+
             /*
             if(command == "debug")
             {
@@ -182,6 +189,13 @@ namespace PSO2emergencyToDiscordCore
             System.Console.WriteLine("url : Discord WebHooks URLを表示します。");
             System.Console.WriteLine("url [WebHooks URL]: Discord WebHooks URLを[WebHooks URL]に設定します。");
             System.Console.WriteLine("stop : PSO2emergencyToDiscordCoreを終了します。");
+        }
+
+        private void outputVersion()
+        {
+            System.Console.WriteLine("PSO2emergencyToDiscordCore version 1.0.0.0");
+            System.Console.WriteLine("Copyright (c) 2018 Kousokujin.");
+            System.Console.WriteLine("Released under the MIT license.");
         }
 
         public void loop()

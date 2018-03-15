@@ -25,14 +25,33 @@ namespace PSO2emergencyToDiscordCore
             time = dt.ToString("HH:mm:ss");
             string text = string.Format("[{0} {1}]{2}", date, time, str);
 
-            using(FileStream file = new FileStream(filename, FileMode.Append))
+            try
             {
-                using(StreamWriter writer = new StreamWriter(file, Encoding.UTF8))
+                using (FileStream file = new FileStream(filename, FileMode.Append))
                 {
-                    writer.WriteLine(text);
-                    System.Console.WriteLine(text);
+                    using (StreamWriter writer = new StreamWriter(file, Encoding.UTF8))
+                    {
+                        writer.WriteLine(text);
+                        System.Console.WriteLine(text);
+                    }
                 }
             }
+            catch(FieldAccessException)
+            {
+                System.Console.WriteLine(text);
+                System.Console.WriteLine("ログファイルへの書き込みに失敗しました。");
+            }
+            catch (System.Security.SecurityException)
+            {
+                System.Console.WriteLine(text);
+                System.Console.WriteLine("ログファイルへのアクセス権がありません。");
+            }
+        }
+
+        public static void writeLog(string log,params string[] args)
+        {
+            string str = string.Format(log, args);
+            writeLog(str);
         }
 
         public static void outputPronpt()

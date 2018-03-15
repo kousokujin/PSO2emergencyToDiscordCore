@@ -33,8 +33,10 @@ namespace PSO2emergencyToDiscordCore
             {
                 logOutput.writeLog("設定ファイルが見つかりました。");
 
-                object obj = loadConfig();
-                if(obj is configure)
+                object obj;
+                bool result = loadConfig(out obj);
+
+                if(result == true && obj is configure)
                 {
                     configure conf = (configure)obj;
                     return conf;
@@ -97,23 +99,28 @@ namespace PSO2emergencyToDiscordCore
             return configFile;
         }
 
-        public void saveConfig()    //設定ファイル保存
+        public bool saveConfig()    //設定ファイル保存
         {
             configure conf = new configure();
             conf.url = service.getUrl();
             conf.rodos = bot.rodos;
-            XmlFileIO.xmlSave(conf.GetType(),getFilename(),conf);
+            bool result = XmlFileIO.xmlSave(conf.GetType(),getFilename(),conf);
 
             logOutput.writeLog("設定ファイルを保存しました。");
+
+            return true;
         }
 
-        public object loadConfig()  //設定ファイル読み込み
+        public bool loadConfig(out object obj)  //設定ファイル読み込み
         {
+
             configure conf = new configure();
-            object obj = XmlFileIO.xmlLoad(conf.GetType(), getFilename());
+            bool result = XmlFileIO.xmlLoad(conf.GetType(), getFilename(),out obj);
 
             logOutput.writeLog("設定ファイルを読み込みました。");
-            return obj;
+            
+            
+            return result;
         }
         
 

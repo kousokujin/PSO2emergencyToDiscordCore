@@ -35,8 +35,16 @@ namespace PSO2emergencyToDiscordCore
             if (url != null)
             {
                 //エラー処理どうしよ
-                var respons = await hc.PostAsync(url, content);
-                return respons;
+                try
+                {
+                    var respons = await hc.PostAsync(url, content);
+                    return respons;
+                }
+                catch(HttpRequestException)
+                {
+                    logOutput.writeLog("投稿に失敗しました。");
+                    return null;
+                }
             }
             else{
                 return null;

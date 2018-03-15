@@ -12,7 +12,7 @@ namespace PSO2emergencyToDiscordCore
     {
         public aki_luaEventGetter(string url,HttpClient cl) : base(url, Encoding.UTF8,cl)
         {
-
+            base.pso2EventBuffer = new List<Event>();
         }
 
         public override void reloadPSO2Event()
@@ -32,15 +32,13 @@ namespace PSO2emergencyToDiscordCore
             }
 
             //バッファの初期化など
-            if(base.pso2EventBuffer == null)
-            {
-                base.pso2EventBuffer = new List<Event>();
-            }
-
             if(base.pso2EventBuffer.Count != 0)
             {
                 base.pso2EventBuffer.Clear();
             }
+
+            //緊急クエスト取得成功・失敗の結果
+            bool getOK = true;
 
             //緊急クエストの取得
             for(int i = 0; i <= getDays; i++)
@@ -58,7 +56,15 @@ namespace PSO2emergencyToDiscordCore
                 resultHTTP.Wait();
 
                 //結果をstringにする
-                Task<string> resultStrTask = resultHTTP.Result.Content.ReadAsStringAsync();
+                Task<string> resultStrTask;
+                try
+                {
+                    resultStrTask = resultHTTP.Result.Content.ReadAsStringAsync();
+                }
+                catch(System.NullReferenceException)    //緊急クエストの取得に失敗
+                {
+                    break;
+                }
                 resultStrTask.Wait();
                 string result = resultStrTask.Result;
 
@@ -103,7 +109,10 @@ namespace PSO2emergencyToDiscordCore
                 }
             }
 
-            logOutput.writeLog("緊急クエストの情報を取得しました。緊急クエストは以下の通りです。\n"+outputBufferEmg());
+            if (getOK == true)
+            {
+                logOutput.writeLog("緊急クエストの情報を取得しました。緊急クエストは以下の通りです。\n" + outputBufferEmg());
+            }
 
         }
     }

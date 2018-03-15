@@ -23,8 +23,7 @@ namespace PSO2emergencyToDiscordCore
             StringContent sc = new StringContent(data, encode, "application/json");
             Task<HttpResponseMessage> t = AsyncHttpPOST(sc);
 
-            string log = string.Format("Discordに投稿「{0}」", text);
-            logOutput.writeLog(log);
+            logOutput.writeLog("Discordに投稿「{0}」",text);
             return t;
         }
     }
