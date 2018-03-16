@@ -1,60 +1,86 @@
 # PSO2emergencyToDiscordCore
+![screenshot](https://raw.githubusercontent.com/kousokujin/PSO2emergencyToDiscordCore/master/screenshot.png)
 
-Windows‚Ì‚İ‚Å“®‚­[PSO2emergencyToDiscord](https://github.com/kousokujin/PSO2emergencyToDiscord)‚ğ . NET Core 2.0‚Åì‚è’¼‚µ‚ÄWindows‚¾‚¯‚Å‚Í‚È‚­Linux‚âmacOS‚Å“®‚­‚æ‚¤‚É‚µ‚½‚à‚Ì‚Å‚·B
+Windowsã®ã¿ã§å‹•ã[PSO2emergencyToDiscord](https://github.com/kousokujin/PSO2emergencyToDiscord)ã‚’ . NET Core 2.0ã§ä½œã‚Šç›´ã—ã¦Windowsã ã‘ã§ã¯ãªãLinuxã‚„macOSã§å‹•ãã‚ˆã†ã«ã—ãŸã‚‚ã®ã§ã™ã€‚
 
-PSO2‚Ì—\‹Ù‹}‚ğ1ŠÔ‘OA30•ª‘O‚ÉDiscord‚É’Ê’m‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Å‚·B
+PSO2ã®äºˆå‘Šç·Šæ€¥ã‚’1æ™‚é–“å‰ã€30åˆ†å‰ã«Discordã«é€šçŸ¥ã™ã‚‹ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§ã™ã€‚
 
-Discord‚ÌWebHooks‚ğ‚Â‚©‚¢‚Ü‚·B
+Discordã®WebHooksã‚’ã¤ã‹ã„ã¾ã™ã€‚
 
-# g‚¢•û
-## ‰Šúİ’è
-’Ê’m‚µ‚½‚¢Discord‚Ìƒ`ƒƒƒ“ƒlƒ‹‚ÅWebhooks‚ğ”­s‚µ‚Ü‚·B
+# ä½¿ã„æ–¹
+## åˆæœŸè¨­å®š
+é€šçŸ¥ã—ãŸã„Discordã®ãƒãƒ£ãƒ³ãƒãƒ«ã§Webhooksã‚’ç™ºè¡Œã—ã¾ã™ã€‚
 
-PSO2emergencyToDiscordCore‚ğ‹N“®‚·‚é‚Æ‰Šúİ’è‚ªs‚í‚ê‚é‚Ì‚ÅAWebHooks‚ÌURL‚ğ“ü—Í‚µ‚Ü‚·B
+PSO2emergencyToDiscordCoreã‚’èµ·å‹•ã™ã‚‹ã¨åˆæœŸè¨­å®šãŒè¡Œã‚ã‚Œã‚‹ã®ã§ã€WebHooksã®URLã‚’å…¥åŠ›ã—ã¾ã™ã€‚
 
-‚ ‚Æ‚Í30•ª‘O‚Æ1ŠÔ‘O‚ÉDiscord‚Ìƒ`ƒƒƒ“ƒlƒ‹‚Å’Ê’m‚ª—ˆ‚Ü‚·B
+ã‚ã¨ã¯30åˆ†å‰ã¨1æ™‚é–“å‰ã«Discordã®ãƒãƒ£ãƒ³ãƒãƒ«ã§é€šçŸ¥ãŒæ¥ã¾ã™ã€‚
 
-## ƒRƒ}ƒ“ƒh
-* ”CˆÓ‚Ì•¶š—ñ‚ğDiscord‚Ö‚Ì“Še
+## èµ·å‹•æ–¹æ³•
+### Windows
+
+ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã—ãŸzipãƒ•ã‚¡ã‚¤ãƒ«ã‚’è§£å‡ã—ã¦ã€ä¸­ã®PSO2emergencyToDiscordCore.exeã‹ã‚‰èµ·å‹•ã€‚
+
+Windows10(x64)ã§å‹•ä½œç¢ºèªã‚’è¡Œã£ã¦ã„ã¾ã™ã€‚
+
+### Linux
+
+ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã—ãŸzipãƒ•ã‚¡ã‚¤ãƒ«ã‚’è§£å‡ã—ã¦ã€ãã®ä¸­ã«cdã‚³ãƒãƒ³ãƒ‰ã§å…¥ã‚Šã€ä»¥ä¸‹ã®ã‚³ãƒãƒ³ãƒ‰ã‚’å®Ÿè¡Œã€‚
 ```Shell
-post [•¶š—ñ]
+> ./PSO2emergencyToDiscordCore
 ```
 
-* Discord WebHooks URL‚ÌÄİ’è
+Ubuntu 17.04(x64)ã§å‹•ä½œã‚’ç¢ºèªã—ã¦ã„ã¾ã™ã€‚
+
+
+### macOS
+
+æ‰‹å…ƒã«macOSã®PCãŒãªã„ã®ã§ã‚„ã‚Šæ–¹ã¯çŸ¥ã‚‰ã‚“ã€‚
+
+## ã‚³ãƒãƒ³ãƒ‰
+* ä»»æ„ã®æ–‡å­—åˆ—ã‚’Discordã¸ã®æŠ•ç¨¿
 ```Shell
-url [WebHooks‚ÌURL]
+> post [æ–‡å­—åˆ—]
 ```
 
-* Discord WebHooks URL‚ÌŠm”F
+* Discord WebHooks URLã®å†è¨­å®š
 ```Shell
-url
+> url [WebHooksã®URL]
 ```
 
-* ƒfƒCƒŠ[ƒI[ƒ_[uƒoƒ‹EƒƒhƒX“¢”°(VH)v‚Ì’Ê’mİ’è
+* Discord WebHooks URLã®ç¢ºèª
 ```Shell
-rodos [enable|disable]
+> url
 ```
 
-* ƒfƒCƒŠ[ƒI[ƒ_[uƒoƒ‹EƒƒhƒX“¢”°(VH)v‚Ì’Ê’mİ’è‚ÌŠm”F
+* ãƒ‡ã‚¤ãƒªãƒ¼ã‚ªãƒ¼ãƒ€ãƒ¼ã€Œãƒãƒ«ãƒ»ãƒ­ãƒ‰ã‚¹è¨ä¼(VH)ã€ã®é€šçŸ¥è¨­å®š
 ```Shell
-rodos
+> rodos [enable|disable]
 ```
 
-* PSO2emergencyToDiscordCore‚ÌI—¹
+* ãƒ‡ã‚¤ãƒªãƒ¼ã‚ªãƒ¼ãƒ€ãƒ¼ã€Œãƒãƒ«ãƒ»ãƒ­ãƒ‰ã‚¹è¨ä¼(VH)ã€ã®é€šçŸ¥è¨­å®šã®ç¢ºèª
 ```Shell
-stop
+> rodos
 ```
 
-* ƒo[ƒWƒ‡ƒ“‚Ì•\¦
+* PSO2emergencyToDiscordCoreã®çµ‚äº†
 ```Shell
-version
+> stop
 ```
-# —\‹Ù‹}‚Ìæ“¾‚È‚Ç
+
+* ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã®è¡¨ç¤º
+```Shell
+> version
+```
+# äºˆå‘Šç·Šæ€¥ã®å–å¾—ãªã©
 https://github.com/aki-lua87/PSO2ema
-‚ğg‚Á‚Ä‚Ü‚·B
+ã‚’ä½¿ã£ã¦ã¾ã™ã€‚
 
-# ƒ_ƒEƒ“ƒ[ƒh
-[ƒ_ƒEƒ“ƒ[ƒh]()
+# ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰
+[ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰]()
 
-## License
-MIT
+# ãƒ©ã‚¤ã‚»ãƒ³ã‚¹
+Copyright (c) 2018 kousokujin.
+
+Released under the [MIT license][].
+
+[MIT license]:http://opensource.org/licenses/mit-license.php "MIT license"
