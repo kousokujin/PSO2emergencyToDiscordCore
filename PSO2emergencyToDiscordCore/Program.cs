@@ -17,6 +17,7 @@ namespace PSO2emergencyToDiscordCore
 
         static void printTitle()
         {
+            System.Console.Title = "PSO2emergencyToDiscordCore";
             System.Console.WriteLine("-------------------------------");
             System.Console.WriteLine("PSO2emergencyToDiscordCore");
             System.Console.WriteLine("version {0}",version.getAssemblyVersion());
