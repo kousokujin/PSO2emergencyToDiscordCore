@@ -1,7 +1,7 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿//using System;
+//using System.Net.Http;
+//using System.Threading.Tasks;
+//using System.Collections.Generic;
 using System.Text;
 
 namespace PSO2emergencyToDiscordCore
