@@ -193,7 +193,7 @@ namespace PSO2emergencyToDiscordCore
 
         private void outputVersion()
         {
-            System.Console.WriteLine("PSO2emergencyToDiscordCore version 1.0.0.0");
+            System.Console.WriteLine("PSO2emergencyToDiscordCore version {0}",version.getAssemblyVersion());
             System.Console.WriteLine("Copyright (c) 2018 Kousokujin.");
             System.Console.WriteLine("Released under the MIT license.");
         }
