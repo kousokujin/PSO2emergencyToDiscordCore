@@ -6,10 +6,10 @@ DiscordのWebHooksをつかいます。
 起動方法
 
 Windows
-ダウンロードしたzipファイルを解凍して、中のPSO2emergencyToDiscordCore.exeから起動。
+ダウンロードしたzipファイルを解凍して、binaryフォルダ内のPSO2emergencyToDiscordCore.exeから起動。
 
 Linux
-ダウンロードしたzipファイルを解凍して、その中にcdコマンドで入り、以下のコマンドを実行。
+ダウンロードしたzipファイルを解凍して、その中のbinaryフォルダにcdコマンドで入り、以下のコマンドを実行。
 > ./PSO2emergencyToDiscordCore
 
 macOS
