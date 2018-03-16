@@ -18,13 +18,13 @@ PSO2emergencyToDiscordCoreを起動すると初期設定が行われるので、
 ## 起動方法
 ### Windows
 
-ダウンロードしたzipファイルを解凍して、中のPSO2emergencyToDiscordCore.exeから起動。
+ダウンロードしたzipファイルを解凍して、binaryフォルダ中のPSO2emergencyToDiscordCore.exeから起動。
 
 Windows10(x64)で動作確認を行っています。
 
 ### Linux
 
-ダウンロードしたzipファイルを解凍して、その中にcdコマンドで入り、以下のコマンドを実行。
+ダウンロードしたzipファイルを解凍して、binaryフォルダ内にcdコマンドで入り、以下のコマンドを実行。
 ```Shell
 > ./PSO2emergencyToDiscordCore
 ```
@@ -76,7 +76,7 @@ https://github.com/aki-lua87/PSO2ema
 を使ってます。
 
 # ダウンロード
-[ダウンロード]()
+[ダウンロード](https://github.com/kousokujin/PSO2emergencyToDiscordCore/releases)
 
 # ライセンス
 Copyright (c) 2018 kousokujin.
