@@ -2,6 +2,7 @@ FROM centos:7
 
 MAINTAINER kousokujin
 
+ENV TZ Asia/Tokyo
 RUN yum update -y && yum install -y wget unzip
 RUN yum install -y libicu libunwind
 RUN mkdir /var/pso2

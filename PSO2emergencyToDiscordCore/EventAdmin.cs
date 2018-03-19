@@ -296,7 +296,7 @@ namespace PSO2emergencyToDiscordCore
                 }
                 */
 
-                //System.Threading.Thread.Sleep(100);
+                System.Threading.Thread.Sleep(10);
 
             }
         }

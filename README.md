@@ -26,7 +26,7 @@ Windows10(x64)で動作確認を行っています。
 
 ダウンロードしたzipファイルを解凍して、binaryフォルダ内にcdコマンドで入り、以下のコマンドを実行。
 ```Shell
-> ./PSO2emergencyToDiscordCore
+$ ./PSO2emergencyToDiscordCore
 ```
 
 Ubuntu 17.04(x64)で動作を確認しています。
@@ -75,19 +75,19 @@ Ubuntu 17.04(x64)で動作を確認しています。
 # Dockerfileの使い方
 * Dockerfileからイメージをビルド
 ```shell
-> docker build -t [任意のイメージ名] .
+$ docker build -t [任意のイメージ名] .
 ```
 
 * イメージからコンテナを作成
 ```shell
-> docker run -itd [イメージ名]
+$ docker run -itd [イメージ名]
 ```
 
 * コンテナ内に入って初期設定
 ```shell
-> docker attach [コンテナID]
-> cd /var/pso2/PSO2emergencyToDiscordCore_1.0.0.0_linux-64/binary/
-> ./PSO2emergencyToDiscordCore
+$ docker attach [コンテナID]
+$ cd /var/pso2/PSO2emergencyToDiscordCore_1.0.0.0_linux-64/binary/
+$ ./PSO2emergencyToDiscordCore
 ```
 
 最後にCtrl+P Ctrl+Qの順でコンテナから抜ける。
