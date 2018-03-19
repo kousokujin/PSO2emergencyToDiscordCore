@@ -86,7 +86,7 @@ $ docker run -itd [イメージ名]
 * コンテナ内に入って初期設定
 ```shell
 $ docker attach [コンテナID]
-$ cd /var/pso2/PSO2emergencyToDiscordCore_1.0.0.0_linux-64/binary/
+$ cd /var/pso2/PSO2emergencyToDiscordCore_1.0.0.1_linux-64/binary/
 $ ./PSO2emergencyToDiscordCore
 ```
 
