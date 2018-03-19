@@ -71,6 +71,27 @@ Ubuntu 17.04(x64)で動作を確認しています。
 ```Shell
 > version
 ```
+
+# Dockerfileの使い方
+* Dockerfileからイメージをビルド
+```shell
+> docker build -t [任意のイメージ名] .
+```
+
+* イメージからコンテナを作成
+```shell
+> docker run -itd [イメージ名]
+```
+
+* コンテナ内に入って初期設定
+```shell
+> docker attach [コンテナID]
+> cd /var/pso2/PSO2emergencyToDiscordCore_1.0.0.0_linux-64/binary/
+> ./PSO2emergencyToDiscordCore
+```
+
+最後にCtrl+P Ctrl+Qの順でコンテナから抜ける。
+
 # 予告緊急の取得など
 https://github.com/aki-lua87/PSO2ema
 を使ってます。
