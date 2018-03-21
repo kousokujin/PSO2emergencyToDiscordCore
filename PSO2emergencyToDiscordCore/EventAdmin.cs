@@ -36,6 +36,10 @@ namespace PSO2emergencyToDiscordCore
         //覇者の紋章キャンペーンリスト
         private List<string> chanpionList;
 
+        //覇者の紋章通知時間リスト
+        private List<DateTime> chpTimeList;
+        private DateTime nextChpTime;
+
         //緊急取得のためのクラス
         public AbstractEventGetter emgGetter;
 
@@ -67,10 +71,13 @@ namespace PSO2emergencyToDiscordCore
         public EventAdmin(AbstractEventGetter emgGetter,AbstractChanpionGetter chanpion)
         {
             pso2Event = new List<Event>();
+            chpTimeList = new List<DateTime>();
+
             this.emgGetter = emgGetter;
             this.chanpionGetter = chanpion;
             getEmgFromNet();
             getChanpionFromNet();
+            setChpTimeList("chp.csv");
             setDailyPost();
             setRodosDay();
 
@@ -204,6 +211,56 @@ namespace PSO2emergencyToDiscordCore
 
             nextReload = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 17, 0, 0) + new TimeSpan(getDays, 0, 0, 0);
             logOutput.writeLog(string.Format("次の緊急クエストの取得は{0}月{1}日{2}時{3}分です。", nextReload.Month, nextReload.Day, nextReload.Hour, nextReload.Minute));
+        }
+
+        //csvファイルから覇者の紋章キャンペーン通知時間リストを設定
+        public void setChpTimeList(string filename)
+        {
+            chpTimeList.Clear();
+
+            List<List<string>> csvList = ConvertFromCSV.getConvertCSV(filename);
+
+            foreach(List<string> line in csvList)
+            {
+                int week;
+                int hour;
+                int min;
+                int sec;
+
+                bool intEnable = int.TryParse(line[0], out week);
+                bool hourEnable = int.TryParse(line[1], out hour);
+                bool minEnable = int.TryParse(line[2], out min);
+                bool secEnable = int.TryParse(line[3], out sec);
+
+                DateTime now = DateTime.Now;
+                DateTime tmp = new DateTime(now.Year, now.Month, now.Day, hour, min, sec);
+                int nowWeek = (int)now.DayOfWeek;
+
+                if(intEnable && hourEnable && minEnable && secEnable)
+                {
+                    if(week > nowWeek)
+                    {
+                        tmp += new TimeSpan(week - nowWeek, 0, 0, 0);
+                    }
+
+                    if(week < nowWeek)
+                    {
+                        tmp += new TimeSpan(7-nowWeek+week, 0, 0, 0);
+                    }
+
+                    if(week == nowWeek)
+                    {
+                        TimeSpan d = now - tmp;
+                        
+                        if(d.Seconds >= 0)  //正だったら来週
+                        {
+                            tmp += new TimeSpan(7, 0, 0, 0);
+                        }
+                    }
+
+                    chpTimeList.Add(tmp);
+                }
+            }
         }
 
         //バル・ロドスの通知設定
