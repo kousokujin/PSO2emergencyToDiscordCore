@@ -33,8 +33,14 @@ namespace PSO2emergencyToDiscordCore
         //緊急クエスト情報
         private List<Event> pso2Event;
 
+        //覇者の紋章キャンペーンリスト
+        private List<string> chanpionList;
+
         //緊急取得のためのクラス
         public AbstractEventGetter emgGetter;
+
+        //覇者の紋章取得クラス
+        public AbstractChanpionGetter chanpionGetter;
 
         //次の緊急クエスト
         Event nextEmg;
@@ -58,11 +64,13 @@ namespace PSO2emergencyToDiscordCore
         //public event EventHandler debugEvent;
         //public bool debug;
 
-        public EventAdmin(AbstractEventGetter emgGetter)
+        public EventAdmin(AbstractEventGetter emgGetter,AbstractChanpionGetter chanpion)
         {
             pso2Event = new List<Event>();
             this.emgGetter = emgGetter;
+            this.chanpionGetter = chanpion;
             getEmgFromNet();
+            getChanpionFromNet();
             setDailyPost();
             setRodosDay();
 
@@ -110,6 +118,11 @@ namespace PSO2emergencyToDiscordCore
             emgGetter.reloadPSO2Event();
             setEmgEvent(emgGetter.getPSO2Event());
             setNextGetTime();
+        }
+
+        public void getChanpionFromNet()
+        {
+            chanpionList = chanpionGetter.chanpion();
         }
 
         private void calcNextNofity()   //次の通知の時間を計算

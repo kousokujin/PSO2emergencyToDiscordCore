@@ -9,7 +9,17 @@ namespace PSO2emergencyToDiscordCore
     interface IAsyncHttp
     {
         void setHTTPClient(HttpClient hc);
-        Task<HttpResponseMessage> AsyncHttpPOST(StringContent content);
         string getUrl();
+    }
+
+    interface IAsyncPOST : IAsyncHttp
+    {
+        //Task<HttpResponseMessage> AsyncHttpPOST(StringContent content);
+        Task<string> AsyncHttpPOST(StringContent content);
+    }
+
+    interface IAsyncGET : IAsyncHttp
+    {
+        Task<string> AsyncHttpGET();
     }
 }

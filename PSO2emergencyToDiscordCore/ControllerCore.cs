@@ -10,12 +10,14 @@ namespace PSO2emergencyToDiscordCore
     {
         protected HttpClient hc;
         protected AbstractEventGetter emgGetter;
+        protected AbstractChanpionGetter chGetter;
         protected EventAdmin admin;
         protected botController bot;
         protected AbstractService service;
 
         //string discordurl;
         string HttpGetUrl;
+        string chanpionUrl;
 
         private string configFile;
 
@@ -60,11 +62,13 @@ namespace PSO2emergencyToDiscordCore
         private void init(configure conf)
         {
             HttpGetUrl = "https://akakitune87.net/api/v4/pso2emergency";
+            chanpionUrl = "https://xpow0wu0s5.execute-api.ap-northeast-1.amazonaws.com/v1";
 
             hc = new HttpClient();
             emgGetter = new aki_luaEventGetter(HttpGetUrl, hc);
+            chGetter = new aki_luaChanpionGetter(chanpionUrl, hc);
             service = new DiscordService(conf.url, hc);
-            admin = new EventAdmin(emgGetter);
+            admin = new EventAdmin(emgGetter,chGetter);
             bot = new botController(service, admin);
 
             bot.rodos = conf.rodos;

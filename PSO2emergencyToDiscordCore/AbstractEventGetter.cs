@@ -7,41 +7,26 @@ using System.Threading.Tasks;
 
 namespace PSO2emergencyToDiscordCore
 {
-    abstract class AbstractEventGetter : IAsyncHttp
+    abstract class AbstractEventGetter : HttpSocket,IAsyncPOST
     {
-        public string url;
-        protected Encoding encode;
-        HttpClient hc;
 
         public List<Event> pso2EventBuffer;  //取得した緊急クエストを入れるバッファ
 
-        public AbstractEventGetter(string url,Encoding enc,HttpClient cl)
+        public AbstractEventGetter(string url,Encoding enc,HttpClient cl) : base(url,enc,cl)
         {
-            this.url = url;
-            this.encode = enc;
-            setHTTPClient(cl);
 
             pso2EventBuffer = new List<Event>();
         }
 
-        public void setHTTPClient(HttpClient hc)
-        {
-            this.hc = hc;
-        }
-
-        public string getUrl()
-        {
-            return url;
-        }
-
-        public async Task<HttpResponseMessage> AsyncHttpPOST(StringContent content)
+        public async Task<string> AsyncHttpPOST(StringContent content)
         {
             if (url != null)
             {
                 try
                 {
-                    var respons = await hc.PostAsync(url, content);
-                    return respons;
+                    HttpResponseMessage respons = await hc.PostAsync(url, content);
+                    string resMes = await respons.Content.ReadAsStringAsync();
+                    return resMes;
 
                 }
                 catch(HttpRequestException)
@@ -63,7 +48,7 @@ namespace PSO2emergencyToDiscordCore
 
         public abstract void reloadPSO2Event();
 
-        public async void AsyncReloadEvent()
+        public async Task AsyncReloadEvent()
         {
             await Task.Run(() => reloadPSO2Event());
         }

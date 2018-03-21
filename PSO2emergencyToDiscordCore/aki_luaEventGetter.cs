@@ -52,10 +52,21 @@ namespace PSO2emergencyToDiscordCore
 
                 //HTTPによる取得
                 StringContent sc = new StringContent(data,encode, "application/json");
-                Task<HttpResponseMessage> resultHTTP = AsyncHttpPOST(sc);
-                resultHTTP.Wait();
+
+                Task<string> resultHTTP;
+                try
+                {
+                    resultHTTP = AsyncHttpPOST(sc);
+                    resultHTTP.Wait();
+
+                }
+                catch (System.NullReferenceException)
+                {
+                    break;
+                }
 
                 //結果をstringにする
+                /*
                 Task<string> resultStrTask;
                 try
                 {
@@ -66,7 +77,8 @@ namespace PSO2emergencyToDiscordCore
                     break;
                 }
                 resultStrTask.Wait();
-                string result = resultStrTask.Result;
+                */
+                string result = resultHTTP.Result;
 
                 //Jsonをパース
                 List<JsonPSO2Event> Jsonresult = new List<JsonPSO2Event>();

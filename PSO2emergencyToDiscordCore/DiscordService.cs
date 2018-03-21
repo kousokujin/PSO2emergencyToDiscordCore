@@ -14,14 +14,14 @@ namespace PSO2emergencyToDiscordCore
 
         }
 
-        override public Task<HttpResponseMessage> sendService(string text)
+        override public Task<string> sendService(string text)
         {
             jsoncontent jc = new jsoncontent();
             jc.content = text;
             string data = JsonConvert.SerializeObject(jc, Formatting.Indented);
 
             StringContent sc = new StringContent(data, encode, "application/json");
-            Task<HttpResponseMessage> t = AsyncHttpPOST(sc);
+            Task<string> t = AsyncHttpPOST(sc);
 
             logOutput.writeLog("Discordに投稿「{0}」",text);
             return t;

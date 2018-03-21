@@ -6,39 +6,24 @@ using System.Threading.Tasks;
 
 namespace PSO2emergencyToDiscordCore
 {
-    abstract class AbstractService : IAsyncHttp
+    abstract class AbstractService : HttpSocket,IAsyncPOST
     {
-        public string url;
-        public Encoding encode;
-        HttpClient hc;
-
-        public AbstractService(string url,Encoding enc,HttpClient cl)
+        public AbstractService(string url,Encoding enc,HttpClient cl) : base(url,enc,cl)
         {
-            this.url = url;
-            this.encode = enc;
-            this.hc = new HttpClient();
-            setHTTPClient(cl);
+
         }
 
-        public string getUrl()
-        {
-            return url;
-        }
-
-        public void setHTTPClient(HttpClient hc)
-        {
-            this.hc = hc;
-        }
-
-        public async Task<HttpResponseMessage> AsyncHttpPOST(StringContent content)
+        public async Task<string> AsyncHttpPOST(StringContent content)
         {
             if (url != null)
             {
                 //エラー処理どうしよ
                 try
                 {
-                    var respons = await hc.PostAsync(url, content);
-                    return respons;
+                    HttpResponseMessage respons = await hc.PostAsync(url, content);
+                    string resMes = await respons.Content.ReadAsStringAsync();
+
+                    return resMes;
                 }
                 catch(HttpRequestException)
                 {
@@ -46,11 +31,12 @@ namespace PSO2emergencyToDiscordCore
                     return null;
                 }
             }
-            else{
+            else
+            {
                 return null;
             }
         }
 
-        public abstract Task<HttpResponseMessage> sendService(string str);
+        public abstract Task<string> sendService(string str);
     }
 }
