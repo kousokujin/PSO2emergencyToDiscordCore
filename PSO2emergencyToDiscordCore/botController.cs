@@ -12,12 +12,14 @@ namespace PSO2emergencyToDiscordCore
         private EventAdmin admin;
 
         public bool rodos;
+        public bool chp;    //覇者の通知
 
-        public botController(AbstractService service, EventAdmin admin,bool rodos = true)
+        public botController(AbstractService service, EventAdmin admin,bool rodos = true,bool chp = false)
         {
             this.service = service;
             this.admin = admin;
             this.rodos = rodos; //バル・ロドス通知
+            this.chp = chp;
 
             registEvent();
         }
@@ -28,6 +30,7 @@ namespace PSO2emergencyToDiscordCore
             admin.newDay += new EventHandler(this.newDayPOST);
             admin.Download += new EventHandler(this.newDayPOST);    //めんどいから日付が変わった時と同じ
             admin.rodos30Before += new EventHandler(this.RodosBefore30);
+            admin.chpNotify += new EventHandler(this.chpEvent);
             
         }
 
@@ -131,6 +134,34 @@ namespace PSO2emergencyToDiscordCore
                 DateTime next = rodosCalculator.nextRodosDay(DateTime.Now + new TimeSpan(24,0,0));
                 string postStr = string.Format("デイリーオーダー「バル・ロドス討伐(VH)」の日があと30分で終わります。オーダーは受注しましたか？\n次回のバル・ロドス討伐(VH)の日は{0}月{1}日です。",next.Month,next.Day);
                 ToServicePOST(postStr);
+            }
+        }
+
+        private void chpEvent(object sender,EventArgs e)    //覇者の紋章キャンペーンイベント
+        {
+            if(e is chanpionList)
+            {
+                chanpionList lst = (chanpionList)e;
+
+                if (lst.chpTarget.Count != 0 && chp == true)
+                {
+                    string str = "今週の覇者の紋章キャンペーンは以下の通りです。\n";
+                    int i = 0;
+
+                    foreach (string s in lst.chpTarget)
+                    {
+                        str += s;
+
+                        if(i != lst.chpTarget.Count)
+                        {
+                            str += "\n";
+                        }
+
+                        i++;
+                    }
+
+                    ToServicePOST(str);
+                }
             }
         }
 

@@ -35,6 +35,7 @@ namespace PSO2emergencyToDiscordCore
             addCommand("post");
             addCommand("help");
             addCommand("url");
+            addCommand("hasha");
             addCommand("version");
             //addCommand("debug");
         }
@@ -157,6 +158,75 @@ namespace PSO2emergencyToDiscordCore
                 else
                 {
                     System.Console.WriteLine(service.url);
+                }
+            }
+
+            if (command == "hasha")
+            {
+                bool ok = false;
+                if (args.Length == 0)
+                {
+                    if (bot.chp == true)
+                    {
+                        logOutput.writeLog("覇者の紋章通知は有効です。");
+                        ok = true;
+                    }
+                    else
+                    {
+                        logOutput.writeLog("覇者の紋章通知は無効です。");
+                        ok = true;
+                    }
+                }
+                if (args.Length == 1)
+                {
+                    if (args[0] == "true" || args[0] == "1" || args[0] == "yes" || args[0] == "y" || args[0] == "enable")
+                    {
+                        bot.chp = true;
+                        logOutput.writeLog("覇者の紋章通知を有効にしました。");
+                        ok = true;
+                    }
+
+                    if (args[0] == "false" || args[0] == "0" || args[0] == "no" || args[0] == "n" || args[0] == "disable")
+                    {
+                        bot.chp = false;
+                        logOutput.writeLog("覇者の紋章通知を無効にしました。");
+                        ok = true;
+                    }
+
+                    if(args[0] == "list")
+                    {
+                        logOutput.writeLog("覇者の紋章通知時間は以下の通りです。\n{0}", admin.getChpList());
+                        ok = true;
+                    }
+
+                    if(args[0] == "reload")
+                    {
+                        logOutput.writeLog("覇者の紋章キャンペーンの情報を取得します。");
+                        admin.getChanpionFromNet();
+                        ok = true;
+                    }
+                }
+
+                if(args.Length == 2)
+                {
+                    if(args[0] == "csvfile")
+                    {
+                        chpFile = args[1];
+                        logOutput.writeLog("{0}から覇者の紋章通知時間を読み込みます。", args[1]);
+                        admin.setChpTimeList(args[1]);
+
+                        if(bot.chp == false)
+                        {
+                            System.Console.WriteLine("覇者の紋章通知は無効です。「hasha enable」コマンドで有効にしてください。");
+                        }
+
+                        ok = true;
+                    }
+                }
+
+                if(ok == false)
+                {
+                    System.Console.WriteLine("値が不正です。");
                 }
             }
 

@@ -20,9 +20,11 @@ namespace PSO2emergencyToDiscordCore
         string chanpionUrl;
 
         private string configFile;
+        protected string chpFile;
 
         public ControllerCore()
         {
+            chpFile = "";
             configure conf = configLoad();
             init(conf);
         }
@@ -72,6 +74,14 @@ namespace PSO2emergencyToDiscordCore
             bot = new botController(service, admin);
 
             bot.rodos = conf.rodos;
+            bot.chp = conf.chp;
+
+            this.chpFile = conf.xmlFile;
+
+            if(chpFile != "")
+            {
+                admin.setChpTimeList(chpFile);
+            }
         }
 
         private configure setup()
@@ -108,6 +118,8 @@ namespace PSO2emergencyToDiscordCore
             configure conf = new configure();
             conf.url = service.getUrl();
             conf.rodos = bot.rodos;
+            conf.chp = bot.chp;
+            conf.xmlFile = chpFile;
             bool result = XmlFileIO.xmlSave(conf.GetType(),getFilename(),conf);
 
             logOutput.writeLog("設定ファイルを保存しました。");
@@ -134,5 +146,7 @@ namespace PSO2emergencyToDiscordCore
     {
         public string url;
         public bool rodos;
+        public bool chp;
+        public string xmlFile;
     }
 }

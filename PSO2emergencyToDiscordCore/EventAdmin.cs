@@ -75,13 +75,13 @@ namespace PSO2emergencyToDiscordCore
         {
             pso2Event = new List<Event>();
             chpTimeList = new List<DateTime>();
+            nextChpTimeIndex = 0;
 
             this.emgGetter = emgGetter;
             this.chanpionGetter = chanpion;
             getEmgFromNet();
             getChanpionFromNet();
-            setChpTimeList("chp.csv");
-            setNextChpNotify();
+            //setChpTimeList("chp.csv");
             setDailyPost();
             setRodosDay();
 
@@ -260,6 +260,7 @@ namespace PSO2emergencyToDiscordCore
             }
 
             chpTimeList.Sort();
+            setNextChpNotify();
         }
 
         private DateTime calcChpTime(int week,int hour,int min,int sec)
@@ -306,6 +307,25 @@ namespace PSO2emergencyToDiscordCore
 
                 index++;
             }
+        }
+
+        public string getChpList()
+        {
+            string output = "";
+            int i = 0;
+
+            foreach (DateTime t in chpTimeList)
+            {
+                output += t.ToString("MM/dd HH:mm:ss");
+
+                if (chpTimeList.Count != i)
+                {
+                    output += "\n";
+                }
+                i++;
+            }
+
+            return output;
         }
 
         //バル・ロドスの通知設定
