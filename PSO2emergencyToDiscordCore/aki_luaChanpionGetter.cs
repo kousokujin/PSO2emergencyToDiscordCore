@@ -36,9 +36,9 @@ namespace PSO2emergencyToDiscordCore
             //JSONをパース
             JsonChanpion JsonResult = JsonConvert.DeserializeObject<JsonChanpion>(resultStr);
 
-            logOutput.writeLog("覇者の紋章キャンペーンは以下の通りです。\n{0}", chanpionListStr(JsonResult.StringList));
+            logOutput.writeLog("覇者の紋章キャンペーンは以下の通りです。\n{0}", chanpionListStr(JsonResult.TargetList));
 
-            return JsonResult.StringList;
+            return JsonResult.TargetList;
         }
 
         public string chanpionListStr(List<string> lst)
@@ -57,6 +57,6 @@ namespace PSO2emergencyToDiscordCore
     class JsonChanpion
     {
         public string UpdateTime;
-        public List<string> StringList;
+        public List<string>　TargetList;
     }
 }

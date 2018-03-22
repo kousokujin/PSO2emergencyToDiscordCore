@@ -62,7 +62,7 @@ namespace PSO2emergencyToDiscordCore
         private void init(configure conf)
         {
             HttpGetUrl = "https://akakitune87.net/api/v4/pso2emergency";
-            chanpionUrl = "https://xpow0wu0s5.execute-api.ap-northeast-1.amazonaws.com/v1";
+            chanpionUrl = "https://xpow0wu0s5.execute-api.ap-northeast-1.amazonaws.com/v2";
 
             hc = new HttpClient();
             emgGetter = new aki_luaEventGetter(HttpGetUrl, hc);

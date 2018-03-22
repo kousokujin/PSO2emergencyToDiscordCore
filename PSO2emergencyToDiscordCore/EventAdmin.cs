@@ -30,6 +30,9 @@ namespace PSO2emergencyToDiscordCore
         //バル・ロドスの日が終わる30分前のイベントハンドラ
         public event EventHandler rodos30Before;
 
+        //覇者の紋章通知のイベントハンドラ
+        public event EventHandler chpNotify;
+
         //緊急クエスト情報
         private List<Event> pso2Event;
 
@@ -38,7 +41,7 @@ namespace PSO2emergencyToDiscordCore
 
         //覇者の紋章通知時間リスト
         private List<DateTime> chpTimeList;
-        private DateTime nextChpTime;
+        private int nextChpTimeIndex;
 
         //緊急取得のためのクラス
         public AbstractEventGetter emgGetter;
@@ -78,6 +81,7 @@ namespace PSO2emergencyToDiscordCore
             getEmgFromNet();
             getChanpionFromNet();
             setChpTimeList("chp.csv");
+            setNextChpNotify();
             setDailyPost();
             setRodosDay();
 
@@ -232,34 +236,75 @@ namespace PSO2emergencyToDiscordCore
                 bool minEnable = int.TryParse(line[2], out min);
                 bool secEnable = int.TryParse(line[3], out sec);
 
-                DateTime now = DateTime.Now;
-                DateTime tmp = new DateTime(now.Year, now.Month, now.Day, hour, min, sec);
-                int nowWeek = (int)now.DayOfWeek;
+                if(week > 7)
+                {
+                    break;
+                }
 
                 if(intEnable && hourEnable && minEnable && secEnable)
                 {
-                    if(week > nowWeek)
+                    if (week == 7)  //毎日
                     {
-                        tmp += new TimeSpan(week - nowWeek, 0, 0, 0);
-                    }
-
-                    if(week < nowWeek)
-                    {
-                        tmp += new TimeSpan(7-nowWeek+week, 0, 0, 0);
-                    }
-
-                    if(week == nowWeek)
-                    {
-                        TimeSpan d = now - tmp;
-                        
-                        if(d.Seconds >= 0)  //正だったら来週
+                        for (int i = 0; i < 7; i++)
                         {
-                            tmp += new TimeSpan(7, 0, 0, 0);
+                            DateTime tmp = calcChpTime(i, hour, min, sec);
+                            chpTimeList.Add(tmp);
                         }
                     }
-
-                    chpTimeList.Add(tmp);
+                    else
+                    {
+                        DateTime tmp = calcChpTime(week, hour, min, sec);
+                        chpTimeList.Add(tmp);
+                    }
                 }
+            }
+
+            chpTimeList.Sort();
+        }
+
+        private DateTime calcChpTime(int week,int hour,int min,int sec)
+        {
+            DateTime now = DateTime.Now;
+            DateTime tmp = new DateTime(now.Year, now.Month, now.Day, hour, min, sec);
+            int nowWeek = (int)now.DayOfWeek;
+
+            if (week > nowWeek)
+            {
+                tmp += new TimeSpan(week - nowWeek, 0, 0, 0);
+            }
+
+            if (week < nowWeek)
+            {
+                tmp += new TimeSpan(7 - nowWeek + week, 0, 0, 0);
+            }
+
+            if (week == nowWeek)
+            {
+                TimeSpan d = now - tmp;
+
+                if (d.Seconds >= 0)  //正だったら来週
+                {
+                    tmp += new TimeSpan(7, 0, 0, 0);
+                }
+            }
+
+            return tmp;
+        }
+
+        private void setNextChpNotify()    //次の覇者の紋章キャンペーン通知時間を設定
+        {
+            int index = 0;
+
+            foreach(DateTime d in chpTimeList)
+            {
+                TimeSpan ts = DateTime.Now - d;
+
+                if (ts.Seconds < 0)
+                {
+                    nextChpTimeIndex = index;
+                }
+
+                index++;
             }
         }
 
@@ -349,6 +394,7 @@ namespace PSO2emergencyToDiscordCore
                 if (DateTime.Compare(dt, nextReload) > 0)   //水曜日17時になったら実行
                 {
                     getEmgFromNet();
+                    getChanpionFromNet();   //めんどいので覇者の紋章も一緒に取得
                     DailyEventList e = new DailyEventList(getTodayEmg(), rodosDay);
                     Download(this,e);
                 }
@@ -358,6 +404,17 @@ namespace PSO2emergencyToDiscordCore
                     EventData e = new EventData(2);
                     rodos30Before(this, e);
                     rodosDay = false;
+                }
+
+                if(chpTimeList.Count != 0 && DateTime.Compare(dt,chpTimeList[nextChpTimeIndex]) > 0)  //覇者の紋章通知
+                {
+                    chanpionList e = new chanpionList(chanpionList);
+                    chpNotify(this, e);
+
+                    chpTimeList[nextChpTimeIndex] += new TimeSpan(7, 0, 0, 0);  //一週間後
+                    chpTimeList.Sort();
+                    setNextChpNotify();
+
                 }
 
                 /*

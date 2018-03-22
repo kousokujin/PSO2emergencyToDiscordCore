@@ -11,6 +11,7 @@ namespace PSO2emergencyToDiscordCore
          * 0 : 次の緊急クエスト
          * 1 : その日の緊急クエストの一覧
          * 2 : バル・ロドス23時20分
+         * 3 : 覇者の紋章キャンペーン
          */
         public int eventType;
 
@@ -25,7 +26,7 @@ namespace PSO2emergencyToDiscordCore
         public Event emgData;
         public int interval;
 
-        public emgEventData(Event emg,int interval)    : base(0)
+        public emgEventData(Event emg, int interval) : base(0)
         {
             emgData = emg;
             this.interval = interval;
@@ -37,10 +38,20 @@ namespace PSO2emergencyToDiscordCore
         public List<Event> emgList;
         public bool rodosDay;
 
-        public DailyEventList(List<Event> lst,bool rodos) : base(1)
+        public DailyEventList(List<Event> lst, bool rodos) : base(1)
         {
             rodosDay = rodos;
             emgList = lst;
+        }
+    }
+
+    class chanpionList : EventData
+    {
+        public List<string> chpTarget;
+
+        public chanpionList(List<string> lst) : base(3)
+        {
+            chpTarget = lst;
         }
     }
 
