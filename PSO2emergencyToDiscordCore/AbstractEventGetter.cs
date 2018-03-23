@@ -65,7 +65,7 @@ namespace PSO2emergencyToDiscordCore
                     emgQuest emg = (emgQuest)ev;
                     if (emg.liveEnable == true)
                     {
-                        output += string.Format("({0:00}/{1:00} {2:00}:00){3}", emg.eventTime.Month, emg.eventTime.Day, emg.eventTime.Hour,emg.live);
+                        output += string.Format("({0:00}/{1:00} {2:00}:00){3}\n", emg.eventTime.Month, emg.eventTime.Day, emg.eventTime.Hour,emg.live);
                         output += string.Format("({0:00}/{1:00} {2:00}:{3:00}){4}", emg.eventTime.Month, emg.eventTime.Day, emg.eventTime.Hour, emg.eventTime.Minute, emg.eventName);
                     }
                     else

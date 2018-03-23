@@ -85,13 +85,14 @@ namespace PSO2emergencyToDiscordCore
                 Jsonresult = JsonConvert.DeserializeObject<List<JsonPSO2Event>>(result);
 
                 //バッファに格納
-                foreach(JsonPSO2Event ev in Jsonresult)
+                bool live = false;
+                string livename = "";
+
+                foreach (JsonPSO2Event ev in Jsonresult)
                 {
                     DateTime emgDT = new DateTime(DateTime.Now.Year, ev.Month, ev.Date, ev.Hour, ev.Minute, 0);
-                    bool live = false;
-                    string livename = "";
 
-                    if(ev.EventType == "緊急")
+                     if(ev.EventType == "緊急")
                     {
                         emgQuest emg;
                         if (live == true)
@@ -104,7 +105,7 @@ namespace PSO2emergencyToDiscordCore
                         {
                             emg = new emgQuest(emgDT, ev.EventName);
                         }
-                        base.pso2EventBuffer.Add(emg);
+                         base.pso2EventBuffer.Add(emg);
                     }
 
                     if(ev.EventType == "ライブ")
