@@ -2,7 +2,7 @@ FROM centos:7
 
 MAINTAINER kousokujin
 
-ARG ver=1.0.0.1
+ARG ver=1.0.1.0
 ENV TZ Asia/Tokyo
 RUN yum update -y && yum install -y wget unzip
 RUN yum install -y libicu libunwind
