@@ -56,7 +56,10 @@ namespace PSO2emergencyToDiscordCore
 
     class JsonChanpion
     {
+        [JsonProperty("UpdateTime")]
         public string UpdateTime;
+
+        [JsonProperty("TargetList")]
         public List<string>　TargetList;
     }
 }

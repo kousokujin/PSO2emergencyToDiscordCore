@@ -14,7 +14,7 @@ namespace PSO2emergencyToDiscordCore
         public HttpSocket(string url,Encoding enc,HttpClient cl)
         {
             this.url = url;
-            this.encode = encode;
+            this.encode = enc;
             setHTTPClient(cl);
         }
 
