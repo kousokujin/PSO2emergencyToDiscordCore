@@ -303,6 +303,7 @@ namespace PSO2emergencyToDiscordCore
                 if (ts.Seconds < 0)
                 {
                     nextChpTimeIndex = index;
+                    break;
                 }
 
                 index++;
