@@ -16,6 +16,10 @@ namespace PSO2emergencyToDiscordCore
             commandList = new List<string>();
 
             initComandSet();
+
+            //デバッグ
+            emgQuest addEmg = new emgQuest(new DateTime(2018, 4, 1, 16, 0, 0), "テストイベント");
+            admin.addEmg(addEmg);
             loop();
 
         }
@@ -263,7 +267,7 @@ namespace PSO2emergencyToDiscordCore
 
         private void outputVersion()
         {
-            System.Console.WriteLine("PSO2emergencyToDiscordCore version {0}",version.getAssemblyVersion());
+            System.Console.WriteLine("PSO2emergencyToDiscordCore version {0}",myFunction.getAssemblyVersion());
             System.Console.WriteLine("Copyright (c) 2018 Kousokujin.");
             System.Console.WriteLine("Released under the MIT license.");
         }

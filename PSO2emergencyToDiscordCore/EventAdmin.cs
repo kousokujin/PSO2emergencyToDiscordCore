@@ -120,6 +120,7 @@ namespace PSO2emergencyToDiscordCore
                 }
             }
 
+            pso2Event.Sort((a, b) => (a.eventTime - b.eventTime).Seconds);
             setNextEmg();
             calcNextNofity();
         }
@@ -129,6 +130,31 @@ namespace PSO2emergencyToDiscordCore
             emgGetter.reloadPSO2Event();
             setEmgEvent(emgGetter.getPSO2Event());
             setNextGetTime();
+        }
+
+        public void addEmg(emgQuest emg)    //緊急クエストの追加
+        {
+            //pso2Event.Add(emg);
+
+            //なぜかソートされない
+            //pso2Event.Sort((a, b) => (a.eventTime - b.eventTime).Seconds);
+
+            //応急処置
+            int i = 0;
+            foreach(Event e in pso2Event)   //追加
+            {
+                TimeSpan s = emg.eventTime - e.eventTime;
+                if(s.Seconds <= 0)
+                {
+                    break;
+                }
+                i++;
+            }
+
+            pso2Event.Insert(i, emg);
+
+            setNextEmg();
+            calcNextNofity();
         }
 
         public void getChanpionFromNet()
