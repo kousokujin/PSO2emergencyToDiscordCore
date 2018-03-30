@@ -1,4 +1,4 @@
-﻿//using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Http;
@@ -65,7 +65,9 @@ namespace PSO2emergencyToDiscordCore
                     emgQuest emg = (emgQuest)ev;
                     if (emg.liveEnable == true)
                     {
-                        output += string.Format("({0:00}/{1:00} {2:00}:00){3}\n", emg.eventTime.Month, emg.eventTime.Day, emg.eventTime.Hour,emg.live);
+                        DateTime livetime = emg.eventTime - new TimeSpan(0,30,0);
+                        
+                        output += string.Format("({0:00}/{1:00} {2:00}:{3:00}){4}\n", livetime.Month, livetime.Day, livetime.Hour,livetime.Minute,emg.live);
                         output += string.Format("({0:00}/{1:00} {2:00}:{3:00}){4}", emg.eventTime.Month, emg.eventTime.Day, emg.eventTime.Hour, emg.eventTime.Minute, emg.eventName);
                     }
                     else

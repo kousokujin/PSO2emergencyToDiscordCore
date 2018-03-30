@@ -39,6 +39,7 @@ namespace PSO2emergencyToDiscordCore
             service.sendService(text);
         }
 
+        /*
         private string generateEmgArrStr(List<Event> evn)
         {
             string output = "";
@@ -54,12 +55,14 @@ namespace PSO2emergencyToDiscordCore
 
             return output;
         }
+        */
 
         public string getServicedUrl()
         {
             return service.getUrl();
         }
 
+        /*
         private string getLiveEmgStr(emgQuest e, string section = "->")   //クーナライブがある時に使う
         {
             if (e.liveEnable == true)
@@ -79,6 +82,7 @@ namespace PSO2emergencyToDiscordCore
 
             return e.eventName;
         }
+        */
 
         //-----イベント------
         private void emgNotiy(object sender, EventArgs e)    //緊急通知が来た時のイベント
@@ -93,7 +97,7 @@ namespace PSO2emergencyToDiscordCore
                 }
                 else
                 {
-                    string eventName = getLiveEmgStr((emgQuest)tmp.emgData);
+                    string eventName = myFunction.getLiveEmgStr((emgQuest)tmp.emgData);
                     postStr = string.Format("【{0}分前】{1} {2}", tmp.interval, tmp.emgData.eventTime.ToString("HH:mm"), eventName);
                 }
 
@@ -112,7 +116,7 @@ namespace PSO2emergencyToDiscordCore
                 if (tmp.emgList.Count != 0)
                 {
                     postStr = string.Format("{0}月{1}日の緊急クエストは以下の通りです。\n",DateTime.Now.Month,DateTime.Now.Day);
-                    postStr += generateEmgArrStr(tmp.emgList);
+                    postStr += myFunction.generateEmgArrStr(tmp.emgList);
                 }
 
                 if(tmp.rodosDay == true && rodos == true)

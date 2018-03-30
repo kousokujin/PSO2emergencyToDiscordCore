@@ -18,8 +18,6 @@ namespace PSO2emergencyToDiscordCore
             initComandSet();
 
             //デバッグ
-            emgQuest addEmg = new emgQuest(new DateTime(2018, 4, 1, 16, 0, 0), "テストイベント");
-            admin.addEmg(addEmg);
             loop();
 
         }
@@ -39,6 +37,11 @@ namespace PSO2emergencyToDiscordCore
             addCommand("post");
             addCommand("help");
             addCommand("url");
+            addCommand("list");
+            addCommand("rm");
+            addCommand("delete");
+            addCommand("del");
+            addCommand("add");
             addCommand("hasha");
             addCommand("version");
             //addCommand("debug");
@@ -162,6 +165,83 @@ namespace PSO2emergencyToDiscordCore
                 else
                 {
                     System.Console.WriteLine(service.url);
+                }
+            }
+
+            if (command == "list") //緊急クエストの表示
+            {
+                string str = myFunction.EmgArrStrNumbered(admin.getPSO2Event());
+                System.Console.WriteLine(str);
+            }
+
+            if(command == "rm" || command == "del" || command == "delete")
+            {
+                if(args.Length == 1)
+                {
+                    int number = 0;
+                    bool enableDel = int.TryParse(args[0], out number);
+
+                    if(enableDel == true)
+                    {
+                        admin.delPSO2Event(number - 1);
+                    }                
+                }
+                else
+                {
+                    System.Console.WriteLine("引数が不正です。");
+                }
+            }
+
+            if(command == "add")
+            {
+                if (args.Length != 5 && args.Length != 6)
+                {
+                    System.Console.WriteLine("引数の数が違います。");
+                    return;
+                }
+
+                bool monthEnable = false;
+                bool dayEnable = false;
+                bool hourEnable = false;
+                bool minEnable = false;
+
+                int month = 0;
+                int day = 0;
+                int hour = 0;
+                int min = 0;
+                string name = "";
+
+                monthEnable = int.TryParse(args[0], out month);
+                dayEnable = int.TryParse(args[1], out day);
+                hourEnable = int.TryParse(args[2], out hour);
+                minEnable = int.TryParse(args[3], out min);
+                name = args[4];
+
+                if((monthEnable && dayEnable && hourEnable && minEnable) == false)
+                {
+                    System.Console.WriteLine("値が不正です。");
+                    return;
+                }
+
+                DateTime time = new DateTime(DateTime.Now.Year, month, day, hour, min, 0);
+
+                if ((time - DateTime.Now).TotalSeconds < 0) //過去の時間の場合は1年追加
+                {
+                    time += new TimeSpan(365, 0, 0, 0);
+                }
+
+                if (args.Length == 5)
+                {
+                    emgQuest em = new emgQuest(time, name);
+                    admin.addEmg(em);
+                }
+                
+                if (args.Length == 6)
+                {
+                    string live = args[5];
+                    emgQuest em = new emgQuest(time, name, live);
+                    admin.addEmg(em);
+
                 }
             }
 

@@ -137,8 +137,24 @@ namespace PSO2emergencyToDiscordCore
             pso2Event.Add(emg);
 
             pso2Event.Sort((a, b) => (int)(a.eventTime - b.eventTime).TotalSeconds);
+
+            string emgname = myFunction.getLiveEmgStr(emg);
+            logOutput.writeLog("緊急クエスト「{0}」を{1}に追加しました。",emgname,emg.eventTime.ToString("MM/dd HH:mm"));
             setNextEmg();
             calcNextNofity();
+        }
+
+        public List<Event> getPSO2Event()
+        {
+            return pso2Event;
+        }
+
+        public void delPSO2Event(int index)
+        {
+            if (pso2Event.Count > index)
+            {
+                pso2Event.RemoveAt(index);
+            }
         }
 
         public void getChanpionFromNet()
