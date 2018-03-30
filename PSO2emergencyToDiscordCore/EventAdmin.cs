@@ -222,6 +222,7 @@ namespace PSO2emergencyToDiscordCore
         {
             chpTimeList.Clear();
 
+
             List<List<string>> csvList = ConvertFromCSV.getConvertCSV(filename);
 
             foreach(List<string> line in csvList)
