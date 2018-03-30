@@ -134,25 +134,9 @@ namespace PSO2emergencyToDiscordCore
 
         public void addEmg(emgQuest emg)    //緊急クエストの追加
         {
-            //pso2Event.Add(emg);
+            pso2Event.Add(emg);
 
-            //なぜかソートされない
-            //pso2Event.Sort((a, b) => (a.eventTime - b.eventTime).Seconds);
-
-            //応急処置
-            int i = 0;
-            foreach(Event e in pso2Event)   //追加
-            {
-                TimeSpan s = emg.eventTime - e.eventTime;
-                if(s.Seconds <= 0)
-                {
-                    break;
-                }
-                i++;
-            }
-
-            pso2Event.Insert(i, emg);
-
+            pso2Event.Sort((a, b) => (int)(a.eventTime - b.eventTime).TotalSeconds);
             setNextEmg();
             calcNextNofity();
         }
