@@ -120,7 +120,7 @@ namespace PSO2emergencyToDiscordCore
                 }
             }
 
-            pso2Event.Sort((a, b) => (a.eventTime - b.eventTime).Seconds);
+            //pso2Event.Sort((a, b) => (a.eventTime - b.eventTime).Seconds);
             setNextEmg();
             calcNextNofity();
         }
